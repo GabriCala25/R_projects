@@ -88,3 +88,23 @@ predictions <- predict(linear, newdata = x)
 # residual mean square error
 rmse <- RMSE(predictions, y)
 
+# try linear regression model only on the 6 most significant predictors:
+model_reduced <- lm(trans.quality~ trans.volatile.acidity + trans.chlorides + trans.free.sulfur.dioxide + trans.total.sulfur.dioxide + trans.sulphates + trans.alcohol, train)
+summary(model_reduced)
+
+b <- coef(model_reduced)           ###coefficienti di regressione
+residuals(model_reduced) ###residui del modello
+fitted(model_reduced)    ###valori della variabile risposta stimati dal modello
+deviance(model_reduced)  ###devianza dei residui
+formula(model_reduced)   ###formula del modello
+plot (model_reduced$fitted.values, model_reduced$residuals)
+abline(lm(model_reduced$residuals~model_reduced$fitted.values))
+
+
+# I try to add an interaction term between free sulfur dioxide and total sulfur dioxide
+
+model_reduced_i <- lm(trans.quality~ trans.volatile.acidity + trans.chlorides + trans.free.sulfur.dioxide + trans.total.sulfur.dioxide + trans.free.sulfur.dioxide:trans.total.sulfur.dioxide + trans.sulphates + trans.alcohol, train)
+summary(model_reduced_i)
+
+
+
